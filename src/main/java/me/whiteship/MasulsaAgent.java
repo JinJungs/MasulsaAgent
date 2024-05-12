@@ -1,0 +1,17 @@
+package me.whiteship;
+
+import net.bytebuddy.agent.builder.AgentBuilder;
+import net.bytebuddy.implementation.FixedValue;
+
+import java.lang.instrument.Instrumentation;
+
+import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.named;
+
+public class MasulsaAgent {
+    public static void premain(String agentArgs, Instrumentation inst) {
+        new AgentBuilder.Default()
+                .type(any())
+                .transform((builder, typeDescription, classLoader, javaModule, protectionDomain) -> builder.method(named("pullOut")).intercept(FixedValue.value("Rabbit!"))).installOn(inst);
+    }
+}
